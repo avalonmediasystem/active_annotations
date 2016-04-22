@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'open_annotations/version'
+require 'active_annotations/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "open_annotations"
-  spec.version       = OpenAnnotations::VERSION
+  spec.name          = "active_annotations"
+  spec.version       = ActiveAnnotations::VERSION
   spec.authors       = ["Michael B. Klein"]
   spec.email         = ["mbklein@gmail.com"]
 
   spec.summary       = %q{OpenAnnontations + JSON-LD + ActiveRecord}
   spec.description   = %q{See http://www.openannotation.org/spec/core/}
-  spec.homepage      = "http://github.com/avalonmediasystem/open_annotations"
+  spec.homepage      = "http://github.com/avalonmediasystem/active_annotations"
   spec.license       = "Apache"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

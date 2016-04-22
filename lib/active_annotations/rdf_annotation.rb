@@ -7,10 +7,11 @@ require 'rdf/vocab/oa'
 require 'rdf/vocab/cnt'
 require 'rdf/vocab/dcmitype'
 
-module OpenAnnotations  
-  class Annotation
+module ActiveAnnotations  
+  class RDFAnnotation
     attr_accessor :context
     attr_reader :graph
+    CONTEXT_URI = 'http://www.w3.org/ns/oa-context-20130208.json'
     
     def self.from_jsonld(json)
       content = JSON.parse(json)
@@ -22,12 +23,16 @@ module OpenAnnotations
       result
     end
     
-    def to_jsonld
+    def to_jsonld(opts={})
       input = JSON.parse(graph.dump :jsonld, standard_prefixes: true, prefixes: { oa: RDF::Vocab::OA.to_iri.value })
       frame = YAML.load(File.read(File.expand_path('../frame.yml',__FILE__)))
-      output = JSON::LD::API.frame(input, frame, omitDefault: true)
+      output = JSON::LD::API.frame(input, frame)
       output.merge!(output.delete('@graph')[0])
-      JSON.pretty_generate output
+      if opts[:pretty_json]
+        JSON.pretty_generate output
+      else
+        output.to_json
+      end
     end
 
     def initialize(content=nil)
@@ -107,7 +112,7 @@ module OpenAnnotations
     end
     
     def context
-      @context ||= JSON.parse(open(OpenAnnotations::CONTEXT_URI).read)['@context']
+      @context ||= JSON.parse(open(CONTEXT_URI).read)['@context']
     end
     
     def fragment_value
