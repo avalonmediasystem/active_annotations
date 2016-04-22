@@ -11,6 +11,7 @@ require 'rdf/vocab/foaf'
 module ActiveAnnotations  
   class RDFAnnotation
     RDF::Vocab::DC = RDF::DC unless defined?(RDF::Vocab::DC)
+    RDF::Vocab::FOAF = RDF::FOAF unless defined?(RDF::Vocab::FOAF)
     
     attr_accessor :context
     attr_reader :graph
@@ -181,7 +182,7 @@ module ActiveAnnotations
 
       value = value.nil? ? nil : RDF::URI(value)
       set_value(annotation_id, RDF::Vocab::OA.annotatedBy, value)
-      set_value(value, RDF.type, RDF::Vocal::FOAF.Person)
+      set_value(value, RDF.type, RDF::Vocab::FOAF.Person)
     end
     
     def annotated_at

@@ -36,37 +36,38 @@ note.end_time = 10.75
 note.save
 
 puts note.pretty_annotation
-
+```
+Output:
+```json
 {
   "@context": "http://www.w3.org/ns/oa-context-20130208.json",
-  "@id": "urn:uuid:8621a944-1912-4df7-91ad-6d4654e3d3ab",
+  "@id": "urn:uuid:cac68351-a920-47d5-8c7c-9820e2f4d3bd",
   "@type": "oa:Annotation",
-  "annotatedBy": "https://github.com/mbklein/",
+  "annotatedBy": {
+    "@id": "https://github.com/mbklein/",
+    "@type": "foaf:Person"
+  },
   "hasBody": {
-    "@id": "urn:uuid:a556399c-6012-4c50-b166-828ca2100647",
+    "@id": "urn:uuid:55cb5e7e-19bf-406c-9e4c-cc0ff9fd0689",
     "@type": [
-      "cnt:ContentAsText",
-      "dctypes:Text"
+      "dctypes:Text",
+      "cnt:ContentAsText"
     ],
     "chars": "The five boxing wizards jump quickly."
   },
   "hasTarget": {
-    "@id": "urn:uuid:760bc20d-98a3-49a7-8119-6d0b67574d8d",
+    "@id": "urn:uuid:7a5adf37-7bf2-45d4-ab0d-5a6b9aa2c6ad",
     "@type": "oa:SpecificResource",
     "hasSelector": {
-      "@id": "urn:uuid:20b34203-5a5f-4cda-be15-123ac6714e4f",
+      "@id": "urn:uuid:21331f24-e065-4c06-8c7f-b42a95c53721",
       "@type": "oa:FragmentSelector",
       "conformsTo": "http://www.w3.org/TR/media-frags/",
       "value": "t=3.5,10.75"
-    },
-    "hasSource": {
-      "@id": "http://www.example.org/thing/to/be/annotated",
-      "@type": "dctypes:MovingImage"
     }
   },
   "label": "This is the annotation label",
   "oa:annotatedAt": {
-    "@value": "2016-04-22T12:14:01-05:00",
+    "@value": "2016-04-22T12:59:31Z",
     "@type": "xsd:dateTime"
   }
 }
