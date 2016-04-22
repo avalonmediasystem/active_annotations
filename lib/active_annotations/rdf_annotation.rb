@@ -27,7 +27,7 @@ module ActiveAnnotations
     def to_jsonld(opts={})
       input = JSON.parse(graph.dump :jsonld, standard_prefixes: true, prefixes: { oa: RDF::Vocab::OA.to_iri.value })
       frame = YAML.load(File.read(File.expand_path('../frame.yml',__FILE__)))
-      output = JSON::LD::API.frame(input, frame)
+      output = JSON::LD::API.frame(input, frame, omitDefault: true)
       output.merge!(output.delete('@graph')[0])
       if opts[:pretty_json]
         JSON.pretty_generate output
@@ -43,6 +43,18 @@ module ActiveAnnotations
       else
         @graph << content
       end
+    end
+    
+    def get_value(s, p)
+      return nil if s.nil?
+      statement = graph.first(subject: s, predicate: p)
+      statement.nil? ? nil : statement.object.value
+    end
+    
+    def set_value(s, p, value)
+      return nil if s.nil?
+      @graph.delete({ subject: s, predicate: p })
+      @graph << RDF::Statement.new(s, p, value) unless value.nil?
     end
     
     def add_default_content!
@@ -122,12 +134,12 @@ module ActiveAnnotations
     
     def fragment_value=(value)
       ensure_selector!
-      @graph.delete({ subject: selector_id, predicate: RDF.value })
-      @graph << RDF::Statement.new(selector_id, RDF.value, value) unless value.nil?
+      set_value(selector_id, RDF.value, value)
     end
     
     def start_time
-      fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[0]
+      value = fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[0]
+      value.nil? ? nil : value.to_f
     end
     
     def start_time=(value)
@@ -135,7 +147,8 @@ module ActiveAnnotations
     end
     
     def end_time
-      fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[1]
+      value = fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[1]
+      value.nil? ? nil : value.to_f
     end
     
     def end_time=(value)
@@ -143,52 +156,39 @@ module ActiveAnnotations
     end
     
     def content
-      if body_id.nil?
-        nil
-      else
-        statement = graph.first(subject: body_id, predicate: RDF::Vocab::CNT.chars)
-        statement.nil? ? nil : statement.object.value
-      end
+      get_value(body_id, RDF::Vocab::CNT.chars)
     end
     
     def content=(value)
       ensure_body!
-      @graph.delete({ subject: body_id, predicate: RDF::Vocab::CNT.chars })
-      @graph << RDF::Statement.new(body_id, RDF::Vocab::CNT.chars, value) unless value.nil?
+      set_value(body_id, RDF::Vocab::CNT.chars, value)
     end
     
     def annotated_by
-      statement = @graph.first(subject: annotation_id, predicate: RDF::Vocab::OA.annotatedBy)
-      statement.nil? ? nil : statement.object.value
+      get_value(annotation_id, RDF::Vocab::OA.annotatedBy)
     end
     
     def annotated_by=(value)
       unless annotated_by.nil?
         @graph.delete({ subject: RDF::URI(annotated_by) })
       end
-      @graph.delete({ subject: annotation_id, predicate: RDF::Vocab::OA.annotatedBy })
-      unless value.nil?
-        @graph.insert_statements([
-          RDF::Statement.new(RDF::URI(value), RDF.type, RDF::Vocab::FOAF.Person),
-          RDF::Statement.new(annotation_id, RDF::Vocab::OA.annotatedBy, RDF::URI(value))
-        ])
-      end
+
+      value = value.nil? ? nil : RDF::URI(value)
+      set_value(annotation_id, RDF::Vocab::OA.annotatedBy, value)
+      set_value(value, RDF.type, RDF::Vocal::FOAF.Person)
     end
     
     def annotated_at
-      statement = @graph.first(subject: annotation_id, predicate: RDF::Vocab::OA.annotatedAt)
-      statement.nil? ? nil : statement.object.value
+      get_value(annotation_id, RDF::Vocab::OA.annotatedAt)
     end
     
     def annotated_at=(value)
-      @graph.delete({ subject: annotation_id, predicate: RDF::Vocab::OA.annotatedAt })
-      @graph << RDF::Statement.new(annotation_id, RDF::Vocab::OA.annotatedAt, value)
+      set_value(annotation_id, RDF::Vocab::OA.annotatedAt, value)
     end
     
     def source
       # TODO: Replace this with some way of retrieving the actual source
-      statement = @graph.first(subject: target_id, predicate: RDF::Vocab::OA.hasSource)
-      statement.nil? ? nil : statement.object.value
+      get_value(target_id, RDF::Vocab::OA.hasSource)
     end
     
     def source=(value)
@@ -204,6 +204,14 @@ module ActiveAnnotations
           RDF::Statement.new(RDF::URI(value.rdf_uri), RDF.type, value.rdf_type)
         ])
       end
+    end
+    
+    def label
+      get_value(annotation_id, RDF::RDFS.label)
+    end
+    
+    def label=(value)
+      set_value(annotation_id, RDF::RDFS.label, value)
     end
   end
 end
