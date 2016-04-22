@@ -63,5 +63,10 @@ module ActiveAnnotations
       sync_annotation!
       self[:annotation]
     end
+    
+    def pretty_annotation
+      sync_annotation!
+      internal.to_jsonld(pretty_json: true)
+    end
   end
 end
