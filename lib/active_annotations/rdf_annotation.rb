@@ -10,6 +10,8 @@ require 'rdf/vocab/foaf'
 
 module ActiveAnnotations  
   class RDFAnnotation
+    RDF::Vocab::DC = RDF::DC unless defined?(RDF::Vocab::DC)
+    
     attr_accessor :context
     attr_reader :graph
     CONTEXT_URI = 'http://www.w3.org/ns/oa-context-20130208.json'
@@ -57,32 +59,36 @@ module ActiveAnnotations
       @graph << RDF::Statement.new(s, p, value) unless value.nil?
     end
     
+    def add_statements(*statements)
+      statements.each { |statement| @graph << statement }
+    end
+    
     def add_default_content!
       aid = new_id
-      @graph.insert_statements([
+      add_statements(
         RDF::Statement.new(aid, RDF.type, RDF::Vocab::OA.Annotation),
         RDF::Statement.new(aid, RDF::Vocab::OA.annotatedAt, DateTime.now)
-      ])
+      )
     end
 
     def ensure_body!
       if body_id.nil?
         bid = new_id
-        @graph.insert_statements([
+        add_statements(
           RDF::Statement.new(annotation_id, RDF::Vocab::OA.hasBody, bid),
           RDF::Statement.new(bid, RDF.type, RDF::Vocab::DCMIType.Text),
           RDF::Statement.new(bid, RDF.type, RDF::Vocab::CNT.ContentAsText)
-        ])
+        )
       end
     end
     
     def ensure_target!
       if target_id.nil?
         tid = new_id
-        @graph.insert_statements([
+        add_statements(
           RDF::Statement.new(annotation_id, RDF::Vocab::OA.hasTarget, tid),
           RDF::Statement.new(tid, RDF.type, RDF::Vocab::OA.SpecificResource)
-        ])
+        )
       end
     end
 
@@ -90,11 +96,11 @@ module ActiveAnnotations
       if selector_id.nil?
         ensure_target!
         sid = new_id
-        @graph.insert_statements([
+        add_statements(
           RDF::Statement.new(target_id, RDF::Vocab::OA.hasSelector, sid),
           RDF::Statement.new(sid, RDF.type, RDF::Vocab::OA.FragmentSelector),
           RDF::Statement.new(sid, RDF::Vocab::DC.conformsTo, RDF::URI('http://www.w3.org/TR/media-frags/'))
-        ])
+        )
       end
     end
     
@@ -199,10 +205,10 @@ module ActiveAnnotations
       end
       unless value.nil?
         ensure_target!
-        @graph.insert_statements([
+        add_statements(
           RDF::Statement.new(target_id, RDF::Vocab::OA.hasSource, RDF::URI(value.rdf_uri)),
           RDF::Statement.new(RDF::URI(value.rdf_uri), RDF.type, value.rdf_type)
-        ])
+        )
       end
     end
     
