@@ -1,0 +1,8 @@
+---
+"@context": http://www.w3.org/ns/oa-context-20130208.json
+"@type": oa:Annotation
+hasBody: {}
+hasTarget:
+  "@type": oa:SpecificResource
+  hasSelector: {}
+  hasSource: {}
