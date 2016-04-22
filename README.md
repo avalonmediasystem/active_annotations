@@ -63,6 +63,10 @@ Output:
       "@type": "oa:FragmentSelector",
       "conformsTo": "http://www.w3.org/TR/media-frags/",
       "value": "t=3.5,10.75"
+    },
+    "hasSource": {
+      "@id": "http://www.example.edu/thing/being/annotated",
+      "@type": "dctypes:MovingImage"
     }
   },
   "label": "This is the annotation label",
