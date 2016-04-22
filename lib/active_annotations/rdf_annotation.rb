@@ -6,6 +6,7 @@ require 'rdf/vocab/dc'
 require 'rdf/vocab/oa'
 require 'rdf/vocab/cnt'
 require 'rdf/vocab/dcmitype'
+require 'rdf/vocab/foaf'
 
 module ActiveAnnotations  
   class RDFAnnotation
