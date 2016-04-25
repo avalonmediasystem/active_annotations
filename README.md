@@ -83,7 +83,7 @@ Output:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/active_annotations.
+Bug reports and pull requests are welcome on GitHub at https://github.com/avalonmediasystem/active_annotations.
 
 
 ## License
