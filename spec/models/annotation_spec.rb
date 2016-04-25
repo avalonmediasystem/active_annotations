@@ -51,7 +51,7 @@ describe ActiveAnnotations::Annotation do
     
     it "annotated_at" do
       subject.annotated_at = annotated_at
-      expect(subject.annotated_at).to eq(annotated_at.iso8601)
+      expect(Time.parse(subject.annotated_at)).to eq(annotated_at)
       subject.annotated_at = nil
       expect(subject.annotated_at).to be_nil
     end
