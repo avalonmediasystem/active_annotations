@@ -5,4 +5,4 @@ Bundler::GemHelper.install_tasks
 
 load "tasks/active_annotations.rake"
 
-task :default => :spec
+task :default => :ci

@@ -6,3 +6,8 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 
 EngineCart.fingerprint_proc = EngineCart.rails_fingerprint_proc
+
+desc "Run test suite"
+task :ci => ['engine_cart:generate'] do
+  Rake::Task['spec'].invoke
+end
