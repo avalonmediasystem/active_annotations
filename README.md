@@ -1,5 +1,9 @@
 # ActiveAnnotations
 
+[![Gem Version](https://badge.fury.io/rb/active_annotations.png)](http://badge.fury.io/rb/active_annotations)
+[![Build Status](https://travis-ci.org/avalonmediasystem/active_annotations.svg?branch=master)](https://travis-ci.org/avalonmediasystem/active_annotations)
+[![Coverage Status](https://coveralls.io/repos/avalonmediasystem/active_annotations/badge.svg?branch=master&service=github)](https://coveralls.io/github/avalonmediasystem/active_annotations?branch=master)
+
 ActiveAnnotations is a gem for modeling simple [OpenAnnotation](http://www.openannotation.org/)-compatible annotations to Rails. It is ActiveRecord compatible, but is backed by an RDF graph that serializes (by default) to [JSON-LD](http://json-ld.org/).
 
 * The `source_uri` and the serialized annotation are stored in ActiveRecord; other methods access the underlying graph.
