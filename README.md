@@ -16,12 +16,12 @@ gem 'active_annotations'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
-Or install it yourself as:
+Run the install generator which will copy over the required migrations and run them:
 
-    $ gem install active_annotations
-
+    $ rails generate active_annotations:install
+    
 ## Usage
 
 ```ruby
