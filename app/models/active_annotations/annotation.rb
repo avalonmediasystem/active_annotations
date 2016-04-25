@@ -34,7 +34,7 @@ module ActiveAnnotations
     end
     
     def sync_attributes!
-      self[:uuid] = internal.annotation_id
+      self[:uuid] = internal.annotation_id.value
       self[:source_uri] = internal.source
       true
     end
