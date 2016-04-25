@@ -13,18 +13,12 @@ module ActiveAnnotations
     RDF::Vocab::DC = RDF::DC unless defined?(RDF::Vocab::DC)
     RDF::Vocab::FOAF = RDF::FOAF unless defined?(RDF::Vocab::FOAF)
     
-    attr_accessor :context
     attr_reader :graph
-    CONTEXT_URI = 'http://www.w3.org/ns/oa-context-20130208.json'
+    CONTEXT_URI = 'http://www.w3.org/ns/oa.jsonld'
     
     def self.from_jsonld(json)
       content = JSON.parse(json)
-      if content['@context'] =~ /\.json$/
-        content['@context'] = JSON.parse(open(content['@context']).read)['@context']
-      end
-      result = self.new(JSON::LD::API.toRDF(content))
-      result.context = content['@context']
-      result
+      self.new(JSON::LD::API.toRDF(content))
     end
     
     def to_jsonld(opts={})
@@ -129,10 +123,6 @@ module ActiveAnnotations
     
     def selector_id
       find_id(RDF::Vocab::OA.FragmentSelector)
-    end
-    
-    def context
-      @context ||= JSON.parse(open(CONTEXT_URI).read)['@context']
     end
     
     def fragment_value

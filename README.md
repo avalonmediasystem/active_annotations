@@ -40,7 +40,7 @@ puts note.pretty_annotation
 Output:
 ```json
 {
-  "@context": "http://www.w3.org/ns/oa-context-20130208.json",
+  "@context": "http://www.w3.org/ns/oa.jsonld",
   "@id": "urn:uuid:cac68351-a920-47d5-8c7c-9820e2f4d3bd",
   "@type": "oa:Annotation",
   "annotatedBy": {
