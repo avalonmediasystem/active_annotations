@@ -4,10 +4,10 @@ rvm:
   - 2.1
   - 2.2
 env:
-  - RAILS_VERSION=~>4.1.10
-  - RAILS_VERSION=~>4.2.5
-  - RDF_GEM_VERSION=~>1.1
-  - RDF_GEM_VERSION=~>2.0
+  - RAILS_VERSION='~>4.1.10' RDF_GEM_VERSION='~>1.1.0'
+  - RAILS_VERSION='~>4.2.5' RDF_GEM_VERSION='~>1.1.0'
+  - RAILS_VERSION='~>4.1.10' RDF_GEM_VERSION='~>2.0.0'
+  - RAILS_VERSION='~>4.2.5' RDF_GEM_VERSION='~>2.0.0'
 
 before_install:
   - gem install bundler
