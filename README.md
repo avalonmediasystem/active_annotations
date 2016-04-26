@@ -9,6 +9,7 @@ ActiveAnnotations is a gem for modeling simple [OpenAnnotation](http://www.opena
 * The `source_uri` and the serialized annotation are stored in ActiveRecord; other methods access the underlying graph.
 * All attributes are optional.
 * Target selectors are currently limited to time-based media fragments, but will be generalized in future iterations.
+* If using v1.x of the `rdf` gem, all DateTime values _must_ be in UTC to ensure proper serialization. This restriction does not apply to `rdf >= 2.0`.
 
 ## Installation
 

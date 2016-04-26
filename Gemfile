@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 # Specify your gem's dependencies in active_annotations.gemspec
 gemspec
-group :test do
-  gem "simplecov", require: false
-  gem "coveralls", require: false
+
+if ENV["RDF_GEM_VERSION"]
+  gem 'rdf', ENV["RDF_GEM_VERSION"]
+else
+  gem 'rdf'
 end
 
 # BEGIN ENGINE_CART BLOCK
