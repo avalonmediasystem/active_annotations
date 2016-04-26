@@ -45,7 +45,13 @@ module ActiveAnnotations
     def get_value(s, p)
       return nil if s.nil?
       statement = graph.first(subject: s, predicate: p)
-      statement.nil? ? nil : statement.object.value
+      if statement.nil?
+        return nil
+      elsif statement.object.is_a?(RDF::Literal)
+        statement.object.object
+      else
+        statement.object.value
+      end
     end
     
     def set_value(s, p, value)

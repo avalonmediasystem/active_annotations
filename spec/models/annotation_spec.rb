@@ -7,7 +7,10 @@ describe ActiveAnnotations::Annotation do
   let!(:end_time) { Faker::Number.positive(start_time) }
   let!(:content) { Faker::Hipster.paragraph }
   let!(:annotated_by) { Faker::Internet.url }
-  let!(:annotated_at) { DateTime.parse(Faker::Time.backward(30).iso8601) }
+  let!(:annotated_at) do
+    value = DateTime.parse(Faker::Time.backward(30).iso8601)
+    RDF::VERSION::MAJOR < '2' ? value.utc : value
+  end
   let!(:source) { Faker::Internet.url }
   let!(:label) { Faker::Hipster.sentence }
   let!(:source_obj) { OpenStruct.new rdf_uri: source, rdf_type: RDF::Vocab::DCMIType.MovingImage }
@@ -51,7 +54,7 @@ describe ActiveAnnotations::Annotation do
     
     it "annotated_at" do
       subject.annotated_at = annotated_at
-      expect(Time.parse(subject.annotated_at)).to eq(annotated_at)
+      expect(subject.annotated_at).to eq(annotated_at)
       subject.annotated_at = nil
       expect(subject.annotated_at).to be_nil
     end
