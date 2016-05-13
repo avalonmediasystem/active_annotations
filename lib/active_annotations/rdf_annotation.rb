@@ -18,13 +18,13 @@ module ActiveAnnotations
     
     def self.from_jsonld(json)
       content = JSON.parse(json)
-      self.new(JSON::LD::API.toRDF(content))
+      self.new(JSON::LD::API.toRDF(content, documentLoader: DocumentLoader.document_loader))
     end
     
     def to_jsonld(opts={})
       input = JSON.parse(graph.dump :jsonld, standard_prefixes: true, prefixes: { oa: RDF::Vocab::OA.to_iri.value })
       frame = YAML.load(File.read(File.expand_path('../frame.yml',__FILE__)))
-      output = JSON::LD::API.frame(input, frame, omitDefault: true)
+      output = JSON::LD::API.frame(input, frame, omitDefault: true, documentLoader: DocumentLoader.document_loader)
       output.merge!(output.delete('@graph')[0])
       if opts[:pretty_json]
         JSON.pretty_generate output

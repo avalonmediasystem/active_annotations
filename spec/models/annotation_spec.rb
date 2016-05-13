@@ -105,7 +105,7 @@ describe ActiveAnnotations::Annotation do
     end
 
     let!(:new_copy) { ActiveAnnotations::Annotation.find_by(uuid: subject.uuid) }
-    let!(:graph) { RDF::Graph.new << JSON::LD::API.toRDF(JSON.parse(subject.annotation)) }
+    let!(:graph) { RDF::Graph.new << JSON::LD::API.toRDF(JSON.parse(subject.annotation), documentLoader: ActiveAnnotations::DocumentLoader.document_loader) }
 
     it "serialize" do
       expect(graph).to be_valid
