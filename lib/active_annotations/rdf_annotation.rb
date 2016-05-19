@@ -142,7 +142,9 @@ module ActiveAnnotations
     
     def start_time
       value = fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[0]
-      value.nil? ? nil : value.to_f
+      Float(value)
+    rescue
+       value
     end
     
     def start_time=(value)
@@ -151,7 +153,9 @@ module ActiveAnnotations
     
     def end_time
       value = fragment_value.nil? ? nil : fragment_value.object.value.scan(/^t=(.*)$/).flatten.first.split(/,/)[1]
-      value.nil? ? nil : value.to_f
+      Float(value)
+    rescue
+      value
     end
     
     def end_time=(value)
