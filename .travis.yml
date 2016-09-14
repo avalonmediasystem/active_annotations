@@ -3,14 +3,13 @@ sudo: false
 rvm:
   - 2.1
   - 2.2
+  - 2.3
 env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   matrix:
-    - RAILS_VERSION='~>4.1.10' RDF_GEM_VERSION='~>1.1.0'
-    - RAILS_VERSION='~>4.1.10' RDF_GEM_VERSION='~>2.0.0'
-    - RAILS_VERSION='~>4.2.5' RDF_GEM_VERSION='~>1.1.0'
-    - RAILS_VERSION='~>4.2.5' RDF_GEM_VERSION='~>2.0.0'
+    - RAILS_VERSION='~>4.1.10'
+    - RAILS_VERSION='~>4.2.5'
 
 before_install:
   - gem install bundler

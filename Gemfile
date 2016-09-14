@@ -2,12 +2,6 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in active_annotations.gemspec
 gemspec
 
-if ENV["RDF_GEM_VERSION"]
-  gem 'rdf', ENV["RDF_GEM_VERSION"]
-else
-  gem 'rdf'
-end
-
 # BEGIN ENGINE_CART BLOCK
 # engine_cart: 0.8.2
 # engine_cart stanza: 0.8.0
