@@ -48,7 +48,7 @@ Output:
   "@context": "http://www.w3.org/ns/oa.jsonld",
   "@id": "urn:uuid:cac68351-a920-47d5-8c7c-9820e2f4d3bd",
   "@type": "oa:Annotation",
-  "annotatedBy": {
+  "dcterms:creator": {
     "@id": "https://github.com/mbklein/",
     "@type": "foaf:Person"
   },
@@ -75,7 +75,7 @@ Output:
     }
   },
   "label": "This is the annotation label",
-  "oa:annotatedAt": {
+  "dcterms:modified": {
     "@value": "2016-04-22T12:59:31Z",
     "@type": "xsd:dateTime"
   }

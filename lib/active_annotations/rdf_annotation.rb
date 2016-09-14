@@ -13,6 +13,10 @@ module ActiveAnnotations
     RDF::Vocab::DC = RDF::DC unless defined?(RDF::Vocab::DC)
     RDF::Vocab::FOAF = RDF::FOAF unless defined?(RDF::Vocab::FOAF)
     
+    # Support reading legacy properties
+    RDF::Vocab::OA.property 'annotatedAt'
+    RDF::Vocab::OA.property 'annotatedBy'
+    
     attr_reader :graph
     CONTEXT_URI = 'http://www.w3.org/ns/oa.jsonld'
     
@@ -68,7 +72,7 @@ module ActiveAnnotations
       aid = new_id
       add_statements(
         RDF::Statement.new(aid, RDF.type, RDF::Vocab::OA.Annotation),
-        RDF::Statement.new(aid, RDF::Vocab::OA.annotatedAt, DateTime.now)
+        RDF::Statement.new(aid, RDF::Vocab::DC.created, DateTime.now)
       )
     end
 
@@ -172,7 +176,7 @@ module ActiveAnnotations
     end
     
     def annotated_by
-      get_value(annotation_id, RDF::Vocab::OA.annotatedBy)
+      get_value(annotation_id, RDF::Vocab::DC.creator) || get_value(annotation_id, RDF::Vocab::OA.annotatedBy)
     end
     
     def annotated_by=(value)
@@ -181,16 +185,16 @@ module ActiveAnnotations
       end
 
       value = value.nil? ? nil : RDF::URI(value)
-      set_value(annotation_id, RDF::Vocab::OA.annotatedBy, value)
+      set_value(annotation_id, RDF::Vocab::DC.creator, value)
       set_value(value, RDF.type, RDF::Vocab::FOAF.Person)
     end
     
     def annotated_at
-      get_value(annotation_id, RDF::Vocab::OA.annotatedAt)
+      get_value(annotation_id, RDF::Vocab::DC.modified) || get_value(annotation_id, RDF::Vocab::OA.annotatedAt)
     end
     
     def annotated_at=(value)
-      set_value(annotation_id, RDF::Vocab::OA.annotatedAt, value)
+      set_value(annotation_id, RDF::Vocab::DC.modified, value)
     end
     
     def source
