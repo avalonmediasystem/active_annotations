@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in active_annotations.gemspec
 gemspec
 
+group :test do
+  gem 'rspec_junit_formatter'
+end
+
 # BEGIN ENGINE_CART BLOCK
 # engine_cart: 1.0.1
 # engine_cart stanza: 0.10.0
