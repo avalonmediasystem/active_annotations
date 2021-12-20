@@ -4,11 +4,11 @@ require 'erb'
 describe ActiveAnnotations::Annotation do
   subject { ActiveAnnotations::Annotation.create }
   let!(:start_time) { Faker::Number.positive }
-  let!(:end_time) { Faker::Number.positive(start_time) }
+  let!(:end_time) { Faker::Number.positive(from: start_time) }
   let!(:content) { Faker::Hipster.paragraph }
   let!(:annotated_by) { Faker::Internet.url }
   let!(:annotated_at) do
-    value = DateTime.parse(Faker::Time.backward(30).iso8601)
+    value = DateTime.parse(Faker::Time.backward(days: 30).iso8601)
     RDF::VERSION::MAJOR < '2' ? value.utc : value
   end
   let!(:source) { Faker::Internet.url }
