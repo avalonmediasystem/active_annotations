@@ -29,7 +29,8 @@ module ActiveAnnotations
       input = JSON.parse(graph.dump :jsonld, standard_prefixes: true, prefixes: { oa: RDF::Vocab::OA.to_iri.value })
       frame = YAML.load(File.read(File.expand_path('../frame.yml',__FILE__)))
       output = JSON::LD::API.frame(input, frame, validate: false, omitDefault: true, documentLoader: DocumentLoader.document_loader)
-      output.merge!(output.delete('@graph')[0])
+      graph = output.delete('@graph').try(:first)
+      output.merge!(graph) if graph
       if opts[:pretty_json]
         JSON.pretty_generate output
       else
