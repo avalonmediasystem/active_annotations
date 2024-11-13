@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  samvera: samvera/circleci-orb@1.0.0
+  samvera: samvera/circleci-orb@1.0.3
 jobs:
   bundle_lint_test:
     parameters:
@@ -8,7 +8,7 @@ jobs:
         type: string
       bundler_version:
         type: string
-        default: 2.0.1
+        default: 2.5.23
       rails_version:
         type: string
     executor:
